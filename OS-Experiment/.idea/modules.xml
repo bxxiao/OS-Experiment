@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BankerAlgorithm/BankerAlgorithm.iml" filepath="$PROJECT_DIR$/BankerAlgorithm/BankerAlgorithm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DynamicPartitionAllocation/DynamicPartitionAllocation.iml" filepath="$PROJECT_DIR$/DynamicPartitionAllocation/DynamicPartitionAllocation.iml" />
       <module fileurl="file://$PROJECT_DIR$/OS-Experiment.iml" filepath="$PROJECT_DIR$/OS-Experiment.iml" />
       <module fileurl="file://$PROJECT_DIR$/ProcessScheduling/ProcessScheduling.iml" filepath="$PROJECT_DIR$/ProcessScheduling/ProcessScheduling.iml" />
     </modules>
