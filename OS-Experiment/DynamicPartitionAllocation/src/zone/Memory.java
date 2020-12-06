@@ -43,12 +43,9 @@ public class Memory {
         if (model==BF){
             zone = searchInBF(reqSize);
         }
-        //若找不到返回null
-        if(zone==null){
-            return null;
-        }
-        //根据请求分区大小对结点进行分配操作，返回分配的分区结点
-        return allocate(zone, reqSize);
+
+        //若找不到返回null；否则根据请求分区大小对结点进行分配操作，返回分配的分区结点
+        return zone==null? null : allocate(zone, reqSize);
     }
 
     /**
