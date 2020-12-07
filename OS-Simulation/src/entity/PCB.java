@@ -14,6 +14,7 @@ public class PCB {
     private int hadRunTime = 0;
     private int finishTime = -1;//进程运行完成的时间点
     private int blockTime = 0;//进程被阻塞时的剩余阻塞时间
+    private int waitTime = 0;
 
     public PCB(String pcbName, Job job, Zone zone) {
         this.pcbName = pcbName;
@@ -29,6 +30,10 @@ public class PCB {
         return hadRunTime==job.getNeedTIme();
     }
 
+    public void addWaitTime(){
+        this.waitTime++;
+    }
+
     public void reduceBlockTIme(){
         blockTime--;
     }
@@ -40,14 +45,23 @@ public class PCB {
     @Override
     public String toString() {
         return pcbName + "{" +
-                job + ", 内存结点：" + zone +
+                job + (zone==null?"":(", 内存结点：" + zone)) +
                 ", 状态：'" + status + '\'' +
                 ", 已运行时间：" + hadRunTime +
+                ", 等待时间：" + waitTime +
+                ((status==PCB.BLOCK)?(", 剩余阻塞时间：" + blockTime):"") +
                 (finishTime==-1?"":(", 进程完成时间：" + finishTime)) +
                 '}';
     }
 
     //getter setter
+    public int getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+    }
 
     public int getFinishTime() {
         return finishTime;

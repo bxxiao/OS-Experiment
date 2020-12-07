@@ -19,8 +19,8 @@ public class Job {
     @Override
     public String toString() {
         return jobName + "{" +
-                "所需运行时间：" + needTIme +
-                ", 所需内存大小：" + needMemory +
+                "需要时间：" + needTIme +
+                ", 需要内存：" + needMemory +
                 '}';
     }
 

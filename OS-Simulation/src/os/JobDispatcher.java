@@ -65,12 +65,11 @@ public class JobDispatcher {
      * 打印后备队列
      */
     public void printPoolQueue(){
-        System.out.println("\n----------------------------------------");
         System.out.println("后备队列：");
         for (Job job : poolQueue){
             System.out.println(job);
         }
-        System.out.println("----------------------------------------");
+        System.out.println();
     }
 
 

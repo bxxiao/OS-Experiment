@@ -142,18 +142,17 @@ public class Memory {
     public void printZoneList(){
         Zone current = zoneList;
         int index = 1;
-        System.out.println("----------------------------------------------\n内存情况：\n");
+        System.out.println("内存情况");
         System.out.println("分区结点号    始址     分区大小    状态     占用进程");
         while(current!=null){
             String number = index + (index>=10?"":" ");//结点号占两个位
             String start = current.getStart() + (current.getStart()>=10?(current.getStart()>=100?"":" "):"  ");//始址占3个位
             String size = current.getSize() + (current.getSize()>=10?(current.getSize()>=100?"":" "):"  ");//大小占3个位
-            System.out.println("   " + number + "         " + start + "       " + size + "      " + (current.isLeisure()?"空闲  ":"非空闲") + "    " +
-                    (current.getPcbName()==null?"无":current.getPcbName()));
+            System.out.println("   " + number + "         " + start + "       " + size + "     " + (current.isLeisure()?"空闲  ":"非空闲")
+                    + "     " + (current.getPcbName()==null?"无":current.getPcbName()));
             current = current.getNext();
             index++;
         }
-        System.out.println("----------------------------------------------");
     }
 
     /**

@@ -17,7 +17,6 @@ public class Test {
         jobs.offer(job2);
         jobs.offer(job3);
         jobs.offer(job4);
-
         Runner runner = new Runner(jobs, 5);
         runner.run();
     }
