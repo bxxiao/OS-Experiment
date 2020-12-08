@@ -3,7 +3,7 @@ package run;
 /**
  * 对作业发出请求的封装
  */
-public class Reqest {
+public class Request {
     //请求的类型，申请或释放内存
     public static final int APPLY = 0;
     public static final int RELEASE = 1;
@@ -12,7 +12,7 @@ public class Reqest {
     private int type;//类型
     private int reqSize;//请求内存大小
 
-    public Reqest(int jobId, int type, int reqSize){
+    public Request(int jobId, int type, int reqSize){
         this.jobId = jobId;
         this.type = type;
         this.reqSize = reqSize;

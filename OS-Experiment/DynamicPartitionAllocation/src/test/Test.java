@@ -1,6 +1,6 @@
 package test;
 
-import run.Reqest;
+import run.Request;
 import run.Runner;
 import zone.Memory;
 
@@ -9,38 +9,38 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args){
-        List<Reqest> reqests = generateReqests();
-        Runner runner = new Runner(reqests);
+        List<Request> requests = generateReqests();
+        Runner runner = new Runner(requests);
 
         // runner.run(Memory.FF);
         runner.run(Memory.BF);
 
     }
 
-    public static List<Reqest> generateReqests(){
-        List<Reqest> reqestList = new ArrayList<>();
-        Reqest r1 = new Reqest(1,Reqest.APPLY, 130);
-        Reqest r2 = new Reqest(2,Reqest.APPLY, 60);
-        Reqest r3 = new Reqest(3,Reqest.APPLY, 100);
-        Reqest r4 = new Reqest(2,Reqest.RELEASE, 60);
-        Reqest r5 = new Reqest(4,Reqest.APPLY, 200);
-        Reqest r6 = new Reqest(3,Reqest.RELEASE, 100);
-        Reqest r7 = new Reqest(1,Reqest.RELEASE, 130);
-        Reqest r8 = new Reqest(5,Reqest.APPLY, 140);
-        Reqest r9 = new Reqest(6,Reqest.APPLY, 60);
-        Reqest r10 = new Reqest(7,Reqest.APPLY, 50);
-        Reqest r11 = new Reqest(8,Reqest.APPLY, 60);
-        reqestList.add(r1);
-        reqestList.add(r2);
-        reqestList.add(r3);
-        reqestList.add(r4);
-        reqestList.add(r5);
-        reqestList.add(r6);
-        reqestList.add(r7);
-        reqestList.add(r8);
-        reqestList.add(r9);
-        reqestList.add(r10);
-        reqestList.add(r11);
-        return reqestList;
+    public static List<Request> generateReqests(){
+        List<Request> requestList = new ArrayList<>();
+        Request r1 = new Request(1, Request.APPLY, 130);
+        Request r2 = new Request(2, Request.APPLY, 60);
+        Request r3 = new Request(3, Request.APPLY, 100);
+        Request r4 = new Request(2, Request.RELEASE, 60);
+        Request r5 = new Request(4, Request.APPLY, 200);
+        Request r6 = new Request(3, Request.RELEASE, 100);
+        Request r7 = new Request(1, Request.RELEASE, 130);
+        Request r8 = new Request(5, Request.APPLY, 140);
+        Request r9 = new Request(6, Request.APPLY, 60);
+        Request r10 = new Request(7, Request.APPLY, 50);
+        Request r11 = new Request(8, Request.APPLY, 60);
+        requestList.add(r1);
+        requestList.add(r2);
+        requestList.add(r3);
+        requestList.add(r4);
+        requestList.add(r5);
+        requestList.add(r6);
+        requestList.add(r7);
+        requestList.add(r8);
+        requestList.add(r9);
+        requestList.add(r10);
+        requestList.add(r11);
+        return requestList;
     }
 }
