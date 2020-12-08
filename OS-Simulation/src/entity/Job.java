@@ -18,9 +18,12 @@ public class Job {
 
     @Override
     public String toString() {
+        //填充空格
+        String needTimeBlank = needTIme>=100?"":(needTIme>=10?" ":"  ");
+        String needMemoryBlank =needMemory>=1000?"":(needMemory>=100?" ":(needMemory>=10?"  ":"   "));
         return jobName + "{" +
-                "需要时间：" + needTIme +
-                ", 需要内存：" + needMemory +
+                "需要时间：" + (needTIme + needTimeBlank) +
+                ", 需要内存：" + (needMemory + needMemoryBlank) +
                 '}';
     }
 

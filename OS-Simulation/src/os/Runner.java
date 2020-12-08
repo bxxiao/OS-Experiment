@@ -2,7 +2,7 @@ package os;
 
 import entity.Job;
 import entity.PCB;
-import util.Util;
+import util.RandomUtil;
 
 import java.util.Queue;
 
@@ -12,11 +12,11 @@ import java.util.Queue;
 public class Runner {
     public static final int MAX_READY_PCB = 5;//就绪队列的最大长度
 
-    private int timeSlice;
+    private int timeSlice;//时间片大小
     private JobDispatcher jobDispatcher;
     private PCBDispatcher pcbDispatcher;
     private Memory memory;
-    private int currentTime;
+    private int currentTime;//当前时间点
     private PCB currentPCB;//当前进程，即被调度的进程
 
     public Runner(Queue<Job> poolQueue, int timeSlice){
@@ -30,7 +30,7 @@ public class Runner {
     public void run(){
         {
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>模拟开始, 时间片大小为：" + timeSlice);
-            System.out.println("（每一块Start-End为一轮循环）");
+            System.out.println("每一块Start-End为一轮循环；最小可用内存大小为" + Memory.MIN_SIZE);
             System.out.println("初始后备队列：");
             jobDispatcher.printPoolQueue();
         }
@@ -45,14 +45,16 @@ public class Runner {
             }
             else{
                 System.out.println("当前就绪队列为空(时间点：" + currentTime + ")");
-                printGlobalSituation();
+                if(currentTime%10==0) {
+                    printGlobalSituation();
+                }
                 currentTime++;
                 pcbDispatcher.addATime(currentTime);
             }
             System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++End");
         }
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>模拟结束");
-        pcbDispatcher.printFinishPCBs();
+        pcbDispatcher.printFinishPCBsUtterly();
     }
 
     /**
@@ -60,13 +62,13 @@ public class Runner {
      */
     private void runTimeSlice(){
         int i;
-        boolean doBlock = Util.doBlockOrNot();//随机决定是否阻塞
-        Integer blockPoint = doBlock ? Util.getRandomTimePoint(timeSlice) : null;//若决定阻塞，随机决定在时间片的第几个时间点阻塞
+        boolean doBlock = RandomUtil.doBlockOrNot();//随机决定是否阻塞
+        Integer blockPoint = doBlock ? RandomUtil.getRandomTimePoint(timeSlice) : null;//若决定阻塞，随机决定在时间片的第几个时间点阻塞
         System.out.println("\n==========================================时间片开始(时间点：" + currentTime + ")=======================================");
         for (i = 0; i < timeSlice; i++) {
             currentTime++;
             //若决定阻塞且到达阻塞时间点，将进程阻塞
-            //PS：若发送阻塞，则此时阻塞时间应该是currentTime-1
+            //PS：若发生阻塞，则此时阻塞时间应该是currentTime-1
             if(blockPoint!=null && blockPoint-1==i){
                 blockCurrentPCB();
                 break;
@@ -84,6 +86,7 @@ public class Runner {
         }
         if (i==timeSlice) {
             System.out.println(currentPCB.getPcbName() + " 运行了一个时间片后未完成，加入就绪队列");
+            currentPCB.setStatus(PCB.READY);
             pcbDispatcher.offerPCB(currentPCB);
         }
         System.out.println("==========================================时间片结束(时间点：" + currentTime + ")=======================================");
@@ -108,7 +111,7 @@ public class Runner {
      * 阻塞当前进程
      */
     private void blockCurrentPCB(){
-        int blockTime = Util.getRandomBlockTime();
+        int blockTime = RandomUtil.getRandomBlockTime();
         currentPCB.setStatus(PCB.BLOCK);
         currentPCB.setBlockTime(blockTime);
         pcbDispatcher.addBlockPCB(currentPCB);
@@ -158,12 +161,12 @@ public class Runner {
      * 打印全局概况，即后被队列、就绪队列等
      */
     private void printGlobalSituation(){
-        System.out.println("----------当前全局资源概况：-----------");
+        System.out.println("------------当前全局资源概况：-------------------");
         jobDispatcher.printPoolQueue();
         pcbDispatcher.printReadyQueue();
         pcbDispatcher.printBlockQueue();
-        pcbDispatcher.printFinishPCBs();
+        pcbDispatcher.printFinishPCBsOutline();
         memory.printZoneList();
-        System.out.println("----------------------------------");
+        System.out.println("-------------------------------------------");
     }
 }

@@ -2,15 +2,15 @@ package util;
 
 import java.util.Random;
 
-public class Util {
+public class RandomUtil {
     /**
      * 随机决定是否阻塞进程
-     * 1/5概率
+     * 3/10概率
      */
     public static boolean doBlockOrNot(){
         Random random = new Random();
         int value = random.nextInt(100);
-        return value<=19;
+        return value<=29;
     }
 
     /**
@@ -22,10 +22,21 @@ public class Util {
         return getRandomInRange(timeSlice);
     }
 
+    /**
+     * 获取随机阻塞时间
+     * @return
+     */
     public static int getRandomBlockTime(){
-        return getRandomInRange(16);
+        Random random = new Random();
+        int range = random.nextBoolean()?31:91;
+        return getRandomInRange(range);
     }
 
+    /**
+     * 获取一个1- （range-1）的随机int值
+     * @param range
+     * @return
+     */
     private static int getRandomInRange(int range){
         Random random = new Random();
         int value = random.nextInt(range);

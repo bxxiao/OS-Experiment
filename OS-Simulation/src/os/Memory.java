@@ -12,7 +12,7 @@ import java.util.List;
  * 封装了一个分区链表，以及分区链表的分配内存、回收内存，搜索内存等操作
  */
 public class Memory {
-    public static final int MIN_SIZE = 10;
+    public static final int MIN_SIZE = 15;
 
     //分区链表
     private Zone zoneList;

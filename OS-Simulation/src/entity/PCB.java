@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * 进程
+ */
 public class PCB {
     //进程的4种状态
     public static final String READY = "就绪";
@@ -44,12 +47,12 @@ public class PCB {
 
     @Override
     public String toString() {
-        return pcbName + "{" +
+        return pcbName + "{ " +
                 job + (zone==null?"":(", 内存结点：" + zone)) +
-                ", 状态：'" + status + '\'' +
-                ", 已运行时间：" + hadRunTime +
-                ", 等待时间：" + waitTime +
-                ((status==PCB.BLOCK)?(", 剩余阻塞时间：" + blockTime):"") +
+                ", 状态：" + status +
+                ", 已运行时间：" + (hadRunTime + (hadRunTime>=100?"":(hadRunTime>=10?" ":"  "))) +
+                ", 等待时间：" + (waitTime + (waitTime>=100?"":(waitTime>=10?" ":"  "))) +
+                ((status==PCB.BLOCK)?(", 剩余阻塞时间：" + (blockTime>=10?blockTime:(blockTime+" "))):"") +
                 (finishTime==-1?"":(", 进程完成时间：" + finishTime)) +
                 '}';
     }

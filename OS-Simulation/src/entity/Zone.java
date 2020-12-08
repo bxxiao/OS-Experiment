@@ -25,9 +25,11 @@ public class Zone {
 
     @Override
     public String toString() {
+        String startBlank = start>=1000?"":(start>=100?" ":(start>=10?"  ":"   "));
+        String sizeBlank = size>=1000?"":(size>=100?" ":(size>=10?"  ":"   "));
         return "[" +
-                "始址：" + start +
-                ", 大小：" + size +
+                "始址：" + (start+startBlank) +
+                ", 大小：" + (size+sizeBlank) +
                 ']';
     }
 

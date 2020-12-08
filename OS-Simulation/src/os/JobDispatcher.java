@@ -19,6 +19,7 @@ public class JobDispatcher {
     }
 
     /**
+     * 调度作业
      * 对当前后备队列最多遍历其当前长度次，尝试调度出number个作业，为它们分配内存、创建PCB
      * @param number 请求调度的作业数
      * @param memory 内存
@@ -30,23 +31,24 @@ public class JobDispatcher {
         int forCount = poolQueue.size();
 
         for (int i = 0; i < forCount; i++) {
-            if(count<number) {
-                Job job = poolQueue.poll();
-                Zone zone = memory.requestZone(job.getNeedMemory());//尝试申请内存
-                if (zone != null) {
-                    PCB pcb = new PCB("进程" + pcbId, job, zone);
-                    result.offer(pcb);
-                    zone.setPcbName(pcb.getPcbName());//设置内存结点占用进程的进程名
-                    pcbId++;
-                    count++;
-                }
-                else{
-                    poolQueue.offer(job);
-                }
+            //调度的个数到达指定个数，跳出循环
+            if(count>=number) {
+                break;
+            }
+
+            Job job = poolQueue.poll();
+            Zone zone = memory.requestZone(job.getNeedMemory());//尝试申请内存
+            //若申请成功
+            if (zone != null) {
+                //对pcbId的处理的为了显示的时候比较整齐
+                PCB pcb = new PCB("进程" + (pcbId>=10?pcbId:(pcbId+" ")), job, zone);
+                result.offer(pcb);
+                zone.setPcbName(pcb.getPcbName());//设置内存结点占用进程的进程名
+                pcbId++;
+                count++;
             }
             else{
-                //调度的个数到达指定个数，跳出循环
-                break;
+                poolQueue.offer(job);
             }
         }
 
@@ -66,8 +68,13 @@ public class JobDispatcher {
      */
     public void printPoolQueue(){
         System.out.println("后备队列：");
-        for (Job job : poolQueue){
-            System.out.println(job);
+        if(poolQueue.size()==0){
+            System.out.println("空");
+        }
+        else {
+            for (Job job : poolQueue) {
+                System.out.println(job);
+            }
         }
         System.out.println();
     }
