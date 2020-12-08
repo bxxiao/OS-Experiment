@@ -20,7 +20,7 @@ public class Runner {
     private PCB currentPCB;//当前进程，即被调度的进程
 
     public Runner(Queue<Job> poolQueue, int timeSlice){
-        this.timeSlice = timeSlice;
+        this.timeSlice = timeSlice>0?timeSlice:10;
         jobDispatcher = new JobDispatcher(poolQueue);
         pcbDispatcher = new PCBDispatcher();
         memory = new Memory();
@@ -36,7 +36,7 @@ public class Runner {
         }
 
         dispatchJob();//作业调度
-        while (jobDispatcher.hasPoolJob() || pcbDispatcher.getReadyPCBCount()>0 || pcbDispatcher.hasBlockPCB()) {
+        while (jobDispatcher.hasPoolJob() || pcbDispatcher.getReadyPCBCount()>0 || pcbDispatcher.hasBlockPCB()){
             System.out.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++Start");
             currentPCB = pcbDispatcher.dispatch();
             if(currentPCB!=null) {
@@ -63,17 +63,17 @@ public class Runner {
     private void runTimeSlice(){
         int i;
         boolean doBlock = RandomUtil.doBlockOrNot();//随机决定是否阻塞
-        Integer blockPoint = doBlock ? RandomUtil.getRandomTimePoint(timeSlice) : null;//若决定阻塞，随机决定在时间片的第几个时间点阻塞
+        Integer blockPoint = doBlock ? RandomUtil.getRandomTimePoint(timeSlice+1) : null;//若决定阻塞，随机决定在时间片的第几个时间点阻塞
         System.out.println("\n==========================================时间片开始(时间点：" + currentTime + ")=======================================");
         for (i = 0; i < timeSlice; i++) {
-            currentTime++;
             //若决定阻塞且到达阻塞时间点，将进程阻塞
-            //PS：若发生阻塞，则此时阻塞时间应该是currentTime-1
             if(blockPoint!=null && blockPoint-1==i){
                 blockCurrentPCB();
+                currentTime++;
                 break;
             }
 
+            currentTime++;
             pcbDispatcher.addATime(currentTime);//就绪队列、阻塞队列中的进程的等待时间，剩余阻塞时间加1或减1
             currentPCB.addRunTime();
 
@@ -96,7 +96,7 @@ public class Runner {
      * 通过作业调度器尝试调度作业，调度的作业数是【5-当前就绪队列长度】
      */
     private void dispatchJob(){
-        int count = MAX_READY_PCB - pcbDispatcher.getReadyPCBCount();
+        int count = MAX_READY_PCB - pcbDispatcher.getReadyPCBCount() - pcbDispatcher.getBlockPCBCount();
         //若后备队列不为空
         if(jobDispatcher.hasPoolJob()){
             Queue<PCB> dispatchPCBs = jobDispatcher.dispatch(count, memory);
@@ -116,7 +116,7 @@ public class Runner {
         currentPCB.setBlockTime(blockTime);
         pcbDispatcher.addBlockPCB(currentPCB);
 
-        System.out.println("在时间点：" + (currentTime-1) + " " + currentPCB.getPcbName() + " 被阻塞，进入阻塞队列，阻塞时间为" + blockTime);
+        System.out.println("在时间点：" + currentTime + " " + currentPCB.getPcbName() + " 被阻塞，进入阻塞队列，阻塞时间为" + blockTime);
     }
 
     /**

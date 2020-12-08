@@ -68,6 +68,13 @@ public class PCBDispatcher {
         return readyQueue.size();
     }
 
+    /**
+     * @return 阻塞队列进程个数
+     */
+    public int getBlockPCBCount(){
+        return blockQueue.size();
+    }
+
     public boolean hasBlockPCB(){
         return blockQueue.size()>0;
     }
